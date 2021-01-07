@@ -424,4 +424,73 @@
 
         <img src="https://miro.medium.com/max/2800/0*0efgxnFIaLTZ2qkY"/>
 
-    * 
+
+
+
+
+
+## 4.2 한글 텍스트 분류
+
+### 데이터 전처리 및 분석
+
+* '네이버 영화 리뷰 감정 분석' 데이터셋 이용
+
+* 데이터 인덱스 벡터로 바꾸기
+
+  ```python
+  from tensorflow.python.keras.preprocessing.sequence import pad_sequences
+  from tensorflow.python.keras.preprocessing.text import Tokenizer
+  
+  tokenizer = Tokenizer()
+  tokenizer.fit_on_texts(clean_train_reviews)
+  train_sequences = tokenizer.texts_to_sequences(clean_train_reviews)
+  test_sequences= tokenizer.text_to_sequence(clean_train_reviews)
+  
+  word_vocab = tokenizer.word_index # 단어 사전
+  
+  MAX_LENGTH = 8
+  
+  # 학습데이터를 벡터화 
+  train_inputs = pad_sequences(train_sequences, maxlen=MAX_LENGTH, padding='post')
+  train_labels = np.array(train_data['label']) # 라벨 저장
+  
+  # 평가 데이터를 벡터화
+  train_inputs = pad_sequences(train_sequences, maxlen=MAX_LENGTH, padding='post')
+  train_labels = np.array(train_data['label']) # 라벨 저장
+  ```
+
+
+
+### 모델링
+
+```python
+class CNNClassifier(tf.keras.Model):
+   
+    def __init__(self, **kargs):
+        super(CNNClassifier, self).__init__(name=kargs['model_name'])
+        self.embedding = layers.Embedding(input_dim=kargs['vocab_size'],
+                                     output_dim=kargs['embedding_size'])
+        self.conv_list = [layers.Conv1D(filters=kargs['num_filters'],
+                                   kernel_size=kernel_size,
+                                   padding='valid',
+                     							 activation=tf.keras.activations.relu,
+                     							 kernel_constraint=tf.keras.constraints.MaxNorm(max_value=3.))
+                     							 for kernel_size in [3,4,5]]
+        self.pooling = layers.GlobalMaxPooling1D()
+        self.dropout = layers.Dropout(kargs['dropout_rate'])
+        self.fc1 = layers.Dense(units=kargs['hidden_dimension'],
+                           activation=tf.keras.activations.relu,
+                           kernel_constraint=tf.keras.constraints.MaxNorm(max_value=3.))
+        self.fc2 = layers.Dense(units=kargs['output_dimension'],
+                           activation=tf.keras.activations.sigmoid,
+                           kernel_constraint=tf.keras.constraints.MaxNorm(max_value=3.))
+    
+    def call(self, x):
+        x = self.embedding(x)
+        x = self.dropout(x)
+        x = tf.concat([self.pooling(conv(x)) for conv in self.conv_list], axis=-1)
+        x = self.fc1(x)
+        x = self.fc2(x)
+        
+        return x
+```
