@@ -15,3 +15,4 @@
 
 * Fundamental of Reinforcement Learning
   * 20/12/29: 1장 Introduction & 2-1장 MDP
+  * 20/12/31: ~ 2-2장 MDP
