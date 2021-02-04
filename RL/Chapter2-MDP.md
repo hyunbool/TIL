@@ -74,6 +74,8 @@
 
 ## 1.2 Value Function
 
+* value function: 기대값에 의해 reward를 예측하는 방법
+
 ### State-value function
 
 * Return
