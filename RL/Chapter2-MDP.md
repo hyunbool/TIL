@@ -113,7 +113,7 @@
   * Agent의 입장에서 다음에 취할 행동은 그 다음에 이동할 수 있는 state들의 value function으로 판단
     * 그러려면 다음 state에 대한 정보를 다 알아야 함
     * 그 state로 가려면 어떻게 해야하는지도 알아야 함
-  * 그렇기 때문에 action에 대한 value function도 알아야 한다.
+  * w그렇기 때문에 action에 대한 value function도 알아야 한다.
 
 * Action-value function: 어떤 state s에서 action a를 취할 경우 받을 return에 대한 기대값
 
