@@ -14,5 +14,12 @@
 ## Study Log
 
 * Fundamental of Reinforcement Learning
-  * 20/12/29: 1장 Introduction & 2-1장 MDP
-  * 20/12/31: ~ 2-2장 MDP
+
+|Chapter|Date|
+|-------|----|
+|1장 Introduction|20/12/29|
+|2장 MDP|20/12/29 ~ 20/12/31|
+|3장 Bellman Equation|21/02/03|
+|4장 Dynamic Programming|21/02/03|
+|5장 Monte-Carlo|21/02/04|
+|6장 Temporal Difference|21/02/04|
