@@ -17,7 +17,7 @@
 
 <img src="https://dnddnjs.gitbooks.io/rl/content/dfq.png"/>
 
-* policy를 포함한 value function과 action value function도 Bellman equation의 형태로 표현할 수 있다.
+* policy(π)를 포함한 value function과 action-value function도 Bellman equation의 형태로 표현할 수 있다.
 
 <img src="https://dnddnjs.gitbooks.io/rl/content/18eba72dcfeafa6e6280055a95078ffa.png"/>
 
