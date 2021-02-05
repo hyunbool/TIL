@@ -23,3 +23,5 @@
 |4장 Dynamic Programming|21/02/03|
 |5장 Monte-Carlo|21/02/04|
 |6장 Temporal Difference|21/02/04|
+|7장 Off-Policy Control|21/02/05|
+|8장 Value Function Approximation|21/02/05|
