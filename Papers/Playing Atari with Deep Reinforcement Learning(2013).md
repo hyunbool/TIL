@@ -1,6 +1,6 @@
 # Playing Atari with Deep Reinforcement Learning(2013)
 
-## Introduction
+## 1. Introduction
 
 * 그동안 RL에서  input에서 directly하게 agent control을 학습하기 위해서는 hand-crafted feature + 선형함수 or policy representation에 의존해 왔다.
 * 최근 딥러닝 분야가 발전하면서 raw data에서  hige-level feature을 추출하는 것이 가능해짐.
@@ -93,7 +93,39 @@ i
 
     <img src="https://latex.codecogs.com/gif.latex?L_i%28%5Ctheta_%7Bi%7D%29%20%3D%20%5Cmathbb%7BE%7D_%7Bs%2C%20a%20%5Csim%20%5Crho%20%28%5Ccdot%20%29%7D%5Cleft%20%5B%20%28y_i%20-%20Q%28s%2C%20a%3B%5Ctheta_i%29%29%5E%7B2%7D%20%5Cright%20%5D"/>
 
-    * iteration i일 때 target <img src="https://latex.codecogs.com/gif.latex?y_i%20%3D%20%5Cmathbb%7BE%7D_%7Bs%27%5Csim%20%5Cvarepsilon%7D%5Cleft%20%5Br%20&plus;%20%5Cgamma%5C%3Amax_%7Ba%27%7DQ%28s%27%2C%20a%27%3B%20%5Ctheta_%7Bi-1%7D%29%7Cs%2C%20a%20%5Cright%20%5D"/>
-    * behaviour distribution ρ(s, a): sequence s와 action a일 때 확률 분포
+    * iteration i일 때 
+      * target <img src="https://latex.codecogs.com/gif.latex?y_i%20%3D%20%5Cmathbb%7BE%7D_%7Bs%27%5Csim%20%5Cvarepsilon%7D%5Cleft%20%5Br%20&plus;%20%5Cgamma%5C%3Amax_%7Ba%27%7DQ%28s%27%2C%20a%27%3B%20%5Ctheta_%7Bi-1%7D%29%7Cs%2C%20a%20%5Cright%20%5D"/>
+      * behaviour distribution ρ(s, a): sequence s와 action a일 때 확률 분포
 
-  *  
+  * Loss function 최적화 시 이전 시각의 parameter <img src="https://latex.codecogs.com/gif.latex?%5Ctheta_%7Bi-1%7D"/>는 고정된다.
+
+* Target은 network weight에 따라 결정된다
+
+  * 학습이 시작되기 전 target이 결정되는 기존의 supervised learning과는 다르다.
+
+* weight에 대해 loss function을 미분해 다음과 같은 gradient를 얻을 수 있다:
+
+  <p align="center"> 
+    <img src="./img/dqn1.png"/>
+  </p>
+
+* 또한 본 논문의 알고리즘 특징
+
+  *  model-free
+    * environment에 해당하는 emulator의 extimate를 만들어내지 않고, emulator에서 바로 샘플을 뽑아 문제를 해결한다.
+  * off-policy
+    * 학습을 수행하는 policy는 단순 greedy strategy <img src="https://latex.codecogs.com/gif.latex?a%20%3D%20max_a%20Q%28s%2C%20a%3B%5Ctheta%29"/>
+    * 행동을 수행하는 policy는 ε-greedy strategy
+      * ε 의 확률로 랜덤 action을, 1-ε 의 확률로 greedy strategy를 따르는 방식
+      * state space에 대한 충분한 exploration을 가지는 behavior distribution을 가질 수 있도록 만들어 준다.
+
+
+
+## 3. Related Work
+
+* TD-gammon
+  * 논문의 시점에서 가장 성고적인 RL 알고리즘
+  * backgammon playing program을 RL과 self-play를 이용해 학습한 알고리즘으로 human-level에 도달함
+  * Q-Learning과 비슷한 model-free RL을 사용했으며 하나의 hidden layer를 가지는 multi-layer perceptron을 사용해 value function을 approximate
+  * 하지만 해당 게임 외의 다른 task에서 좋지 않은 성능을 보였기 때문에 backgammon game에 대해서만 효과적이라고 알려졌음
+    * dice roll의 stochasticity가 state space를 탐험하는데 효과적으로 작용 + value function 스무딩
