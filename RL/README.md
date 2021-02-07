@@ -25,3 +25,5 @@
 |6장 Temporal Difference|21/02/04|
 |7장 Off-Policy Control|21/02/05|
 |8장 Value Function Approximation|21/02/05|
+|9장 DQN|21/02/06|
+|10장 Policy Gradient|21/02/06 ~ 21/02/07|
