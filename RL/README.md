@@ -7,7 +7,8 @@
 * 그래서 방학때 기본 개념으로 잡고 가면 좋을 것 같아 시작하게 된 (혼자만의) 강화학습🤖 스터디
 * 계획은
   1. ['파이썬과 케라스로 배우는 강화학습'의 gitbook](https://dnddnjs.gitbooks.io/rl/content/)을 보면서 공부
-  2. [David Silver 교수님 강화학습 강의](https://www.davidsilver.uk/teaching/) 수강
+  2. [School of AI : MOVE37 강화학습시작하기](https://www.edwith.org/move37)
+  3. [David Silver 교수님 강화학습 강의](https://www.davidsilver.uk/teaching/) 수강
 
 
 
@@ -25,3 +26,5 @@
 |6장 Temporal Difference|21/02/04|
 |7장 Off-Policy Control|21/02/05|
 |8장 Value Function Approximation|21/02/05|
+|9장 DQN|21/02/06|
+|10장 Policy Gradient|21/02/06 ~ 21/02/07|
