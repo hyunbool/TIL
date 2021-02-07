@@ -137,7 +137,7 @@
 
       * 이렇게 바꾸지 않으면 다음과 같은 식이 만들어진다.
 
-        <p align="center"><img src="https://latex.codecogs.com/gif.latex?%5Csum_%7Bs%5Cin%20S%7D%5E%7B%7D%7B%20d%28s%29%20%7D%20%5Csum_%7B%20a%5Cin%20A%20%7D%5E%7B%20%7D%20%5Cnabla%20_%7B%20%5Ctheta%20%7D%5Cpi%20_%7B%20%5Ctheta%20%7D%28s%2Ca%29%7BR%7D_%7B%20s%2Ca%20%7D"></p>
+        <p align="center"><img src="https://latex.codecogs.com/gif.latex?%5Csum_%7Bs%5Cin%20S%7D%5E%7B%7D%7B%20d%28s%29%20%7D%20%5Csum_%7B%20a%5Cin%20A%20%7D%5E%7B%20%7D%20%5Cnabla%20_%7B%20%5Ctheta%20%7D%5Cpi%20_%7B%20%5Ctheta%20%7D%28s%2Ca%29%7BR%7D_%7B%20s%2Ca%20%7D"/></p>
 
         * 이렇게 되면 <img src="https://latex.codecogs.com/gif.latex?%5Cpi_%7B%5Ctheta%7D"/> 가 없어졌기 때문에 expectation을 취해줄 수가 없다.
 
@@ -147,3 +147,134 @@
 
   
 
+### Policy Gradient Theorem
+
+* Gradient는 다음과 같다: <img src="https://dnddnjs.gitbooks.io/rl/content/PG17.png"/>
+
+  <p align="center"><img src="https://dnddnjs.gitbooks.io/rl/content/pg31.png"/></p>
+
+  * p(x): policy
+
+  * <img src="https://latex.codecogs.com/gif.latex?%5Cnabla_%7B%5Ctheta%7D%20log%5Cpi_%7B%5Ctheta%7D"/> 는 이 policy를 표현하는 parameter space에서의 gradient가 된다.
+
+  * 여기에 reward r이라는 scalar값을 곱해줌으로써 어떤 방향으로 policy를 업데이트해줘야 하는지를 결정한다.
+
+    * 이때 policy가 어디로 얼만큼 update 될 것인지 척도가 되는 scalar function으로 immediate reward만 사용하면 그 순간에 대한 정보밖에 모르기 때문에 제대로 학습이 되지 않을 가능성이 높다.
+
+    * 따라서 immediate reward 대신에 자신이 한 행동에 대한 long-term reward인 action-value function을 사용하겠다는 것이 **Policy Gradient Theorem**
+
+      <p align="center">
+        <img src="https://dnddnjs.gitbooks.io/rl/content/PG18.png"/>
+      </p>
+
+      
+
+      * r 대신 Q-function을 사용해 표현
+      * [Policy Gradient Methods for Reinforcement Learning with Function Approximation](https://papers.nips.cc/paper/1999/file/464d828b85b0bed98e80ade0a5c43b0f-Paper.pdf)에 증명
+
+
+
+### Stochastic Policy
+
+* stochastic policy를 표현하기 위해 딥러닝에서 많이 사용되는 nonlinear 함수인 Sigmoid나 Softmax를 사용한다.
+
+* Sigmoid: <img src="https://latex.codecogs.com/gif.latex?S%28t%29%3D%7B%5Cfrac%20%7B1%7D%7B1&plus;e%5E%7B-t%7D%7D%7D"/>
+
+  <p align="center">
+    <img src="https://dnddnjs.gitbooks.io/rl/content/PG32.png"/>
+  </p>
+
+  
+
+  * Discrete action space의 경우: 만약 가능한 action = {rignt, left}일 때
+    * 이 함수에서 나오는 값이 1에 가깝다면 left, 0에 가깝다면 right라는 식으로 설정해 stochastic policy를 표현할 수 있음
+  * Continuous action space: 어떤 로봇의 controller에 0부터 100까지 control input을 줄 수 있을 때
+    * sigmoid함수를 통해 0이 나오면 control input은 0, 1이 나오면 control input은 100을 주는 식으로 설정
+
+* Softmax: <img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/11b61d999176b3e8db6efe6632b7cc62fa4d4c53"/>
+
+  * Discrete action space에서 action이 3개 이상이 되면 sigmoid 함수로 표현하기가 애매해짐
+    * 이런 경우에는 Softmax 함수를 사용하는 것이 좋다.
+  * Action이 i = 1 ~ n까지 있을 때, action probability를 위의 함수로 표현할 수 있다.
+
+
+
+### Monte-Carlo Policy Gradient
+
+* 기존에는 모든 state에 대해 action-value function을 알기 어렵기 때문에 approximation을 진행
+
+  * 그렇다면 policy를 자체를 update하기 위해 사용할 action-value function은 어떻게 알아내야 할까? => **Monte-Carlo**
+
+    * episode를 경험해보고 받았던 reward를 기억
+    * episode가 끝난 다음에 각 state에 대한 return을 계산
+      * 이 return 자체가 action-value function의 unbiased estimation!
+
+    <p align="center"> 
+      <img src="https://dnddnjs.gitbooks.io/rl/content/PG20.png"/>
+    </p>
+
+    * 각 eisode에 대해 loop를 돌며 parameter의 update가 일어난다.
+      * parameter를 regression이 아니라 stochastic gradient descent를 사용해 한 스텝씩 update 해 나간다.
+
+    
+
+## 4) Actor-Critic Policy Gradient
+
+* REINFOCEMENT 알고리즘:
+  * Return을 사용하기 때문에 MC 고유의 문제인 high-variance가 발생한다.
+  * episode 자체가 길 수도 있기 때문에 학습하는 시간이 오래 걸릴수도 있다.
+  * 이를 해결하기 위해 parameter를 하나 더 사용해서 action-value function도 approximation!
+
+
+
+### Actor & Critic
+
+* Critic: action-value function을 approximate하는 **w**를 업데이트 / Actor: policy를 approximate하는 **θ**를 업데이트
+
+<p align="center"> 
+  <img src="https://dnddnjs.gitbooks.io/rl/content/PG21.png"/>
+</p>
+
+
+
+* Critic: action-value function을 통해 현재의 policy를 평가하는 역할을 수행
+  * action을 해보고, 그 action의 action-value function이 높았으면 그 action을 할 확률을 높이도록 policy의 parameter를 업데이트
+  * 판단 척도가 되는 action-value function 또한 처음에는 잘 모르기 때문에 학습을 해주기 위해 critic이 필요하다.
+* Action-value function은 TD(0)을 사용해 업데이트
+
+<p align="center"> 
+  <img src="https://dnddnjs.gitbooks.io/rl/content/PG34.png"/>
+</p>
+
+* 위의 식은 action-value function을 linear하게 approximation했을 경우이다.
+  * 매 time-step마다 업데이트를 진행하며, 업데이트 시 policy와 action-value function의 parameter를 동시에 업데이트
+
+
+
+### Baseline
+
+* Baseline: Actor-Ctiric말고 다르게 Variance문제를 해결하는 방법
+
+  <p align="center"> 
+    <img src="https://dnddnjs.gitbooks.io/rl/content/PG23.png"/>
+  </p>
+
+  
+
+  * State-value fucntion을 일종의 평균으로 사용해 현재의 행동이 평균적으로 얻을 수 있는 value보다 얼마나 더 좋은지를 계산하도록 해 variance를 줄이는 것
+  * 지금까지 해왔던 것 보다 좋으면 그 방향으로 업데이트, 아니면 반대방향으로 업데이트
+
+* 이러한 advantage function의 사용은 variance를 상당히 개선시킬 수 있는 장점이 있지만 value function과 action-value function을 둘 다 approximation 해줘야 한다는 단점도 존재
+
+  <p align="center"> 
+    <img src="https://dnddnjs.gitbooks.io/rl/content/PG35.png"/>
+  </p>
+
+  
+  * 하지면 action-value function이 immediate reward + value function이라는 것을 생각하면 결국 value function 하나만 approximate해도 되기 때문에 critic에 parameter를 두개 사용하는 비효율성을 개선할 수 있음
+
+    <p align="center"> 
+      <img src="https://dnddnjs.gitbooks.io/rl/content/PG36.png"/>
+    </p>
+
+    
