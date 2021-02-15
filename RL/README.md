@@ -37,6 +37,7 @@
 | ------------------------------------------------------------ | -------- |
 | [Simple Reinforcement Learning with Tensorflow Part 0: Q-Learning with Tables and Neural Networks](https://medium.com/emergent-future/simple-reinforcement-learning-with-tensorflow-part-0-q-learning-with-tables-and-neural-networks-d195264329d0#.4gyadb8a4) | 21/02/09 |
 | [Simple Reinforcement Learning in Tensorflow: Part 1 - Two-armed Bandit](https://awjuliani.medium.com/super-simple-reinforcement-learning-tutorial-part-1-fd544fab149) | 21/02/10 |
+| [Simple Reinforcement Learning with Tensorflow Part 1.5: Contextual Bandits](https://medium.com/emergent-future/simple-reinforcement-learning-with-tensorflow-part-1-5-contextual-bandits-bff01d1aad9c) | 21/02/16 |
 
 
 
