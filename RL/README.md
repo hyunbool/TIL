@@ -39,6 +39,7 @@
 | [Simple Reinforcement Learning in Tensorflow: Part 1 - Two-armed Bandit](https://awjuliani.medium.com/super-simple-reinforcement-learning-tutorial-part-1-fd544fab149) | 21/02/10 |
 | [Simple Reinforcement Learning with Tensorflow Part 1.5: Contextual Bandits](https://medium.com/emergent-future/simple-reinforcement-learning-with-tensorflow-part-1-5-contextual-bandits-bff01d1aad9c) | 21/02/15 |
 | [Simple Reinforcement Learning with Tensorflow: Part 2 - Policy-based Agents](https://awjuliani.medium.com/super-simple-reinforcement-learning-tutorial-part-2-ded33892c724) | 21/02/16 |
+| [Simple Reinforcement Learning with Tensorflow: Part 3 - Model-Based RL](https://awjuliani.medium.com/simple-reinforcement-learning-with-tensorflow-part-3-model-based-rl-9a6fe0cce99) | 21/03/07 |
 
 
 
